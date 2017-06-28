@@ -1,10 +1,11 @@
 Package: Census2016
 Type: Package
-Title: What the package does (short line)
-Version: 1.0
+Title: Provides data in the Australian Census 2016
+Version: 0.1.0
 Date: 2017-06-28
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
+Authors@R: c(person("Hugh", "Parsonage", role = c("aut", "cre"), email = "hugh.parsonage@gmail.com"),
+              person("Nick", "Evershed", role = "dtc"))
+Maintainer: Hugh Parsonage <hugh.parsonage@gmail.com>
 Description: More about what it does (maybe more than one line)
-License: What license is it under?
+License: Copyright ABS
 RoxygenNote: 6.0.1
