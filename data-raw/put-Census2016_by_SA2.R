@@ -40,6 +40,7 @@ sa2_year_by_i <-
 swdata.List <- 
   swdata %>%
   as.data.frame %>%
+  filter(nchar(sa2_code) == 9) %>%
   select(ancestries,
          languages,
          countries_of_birth, 
@@ -59,13 +60,6 @@ fromJSON <- function(x1, ...) {
                         input <- gsub("'", '\"', x = input, fixed = TRUE)
                         rjson::fromJSON(input)
                       })
-           })
-}
-
-fromJSON <- function(x1, ...) {
-  tryCatch(rjson::fromJSON(x1, ...), 
-           error = function(e) {
-             jsonlite::fromJSON(x1, ...)
            })
 }
 
@@ -98,8 +92,8 @@ get_all_Var <- function(var, i) {
 Census2016_ancestories <- 
   seq_along(swdata.List$ancestries) %>%
   lapply(get_all_ancestories) %>%
-  rbindlist
-
+  rbindlist %>%
+  sa2_year_by_i[., on = "row"]
 
 Census2016_languages <-
   seq_along(swdata.List$languages) %>%
@@ -134,7 +128,7 @@ Census2016_wide_by_SA2_year %T>%
 write2ctsv <- function(qobj) {
   get(qobj) %T>%
     fwrite(paste0("data-raw/csv/", qobj, ".csv")) %T>%
-    fwrite(paste0("data-raw/csv/", qobj, ".csv"), sep = "\t")
+    fwrite(paste0("data-raw/tsv/", qobj, ".tsv"), sep = "\t")
 }
 
 ls(pattern = "Census2016") %>%

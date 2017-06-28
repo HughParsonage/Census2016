@@ -6,6 +6,7 @@ Date: 2017-06-28
 Authors@R: c(person("Hugh", "Parsonage", role = c("aut", "cre"), email = "hugh.parsonage@gmail.com"),
               person("Nick", "Evershed", role = "dtc"))
 Maintainer: Hugh Parsonage <hugh.parsonage@gmail.com>
-Description: More about what it does (maybe more than one line)
+Description: This package contains the results of scraping the tablebuilder data for each SA2.
+Depends: R (>= 2.10)
 License: Copyright ABS
 RoxygenNote: 6.0.1
