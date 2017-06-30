@@ -1,12 +1,13 @@
 Package: Census2016
 Type: Package
 Title: Provides data in the Australian Census 2016
-Version: 0.1.0
-Date: 2017-06-28
+Version: 0.1.1
+Date: 2017-06-30
 Authors@R: c(person("Hugh", "Parsonage", role = c("aut", "cre"), email = "hugh.parsonage@gmail.com"),
               person("Nick", "Evershed", role = "dtc"))
 Maintainer: Hugh Parsonage <hugh.parsonage@gmail.com>
 Description: This package contains the results of scraping the tablebuilder data for each SA2.
 Depends: R (>= 2.10)
+LazyData: true
 License: Copyright ABS
 RoxygenNote: 6.0.1
