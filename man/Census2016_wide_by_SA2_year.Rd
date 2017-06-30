@@ -4,11 +4,14 @@
 \name{Census2016_wide_by_SA2_year}
 \alias{Census2016_wide_by_SA2_year}
 \title{Census data by SA2}
-\format{An object of class \code{data.table} (inherits from \code{data.frame}) with 6720 rows and 74 columns.}
+\format{An object of class \code{data.table} (inherits from \code{data.frame}) with 6720 rows and 75 columns.}
 \usage{
 Census2016_wide_by_SA2_year
 }
 \description{
 Census data by SA2
+}
+\details{
+If no data is offered by the ABS for that SA2, the data is marked as missing  and the column \code{isMissing} is \code{TRUE}.
 }
 \keyword{datasets}

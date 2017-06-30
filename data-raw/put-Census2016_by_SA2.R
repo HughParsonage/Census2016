@@ -27,9 +27,34 @@ Census2016_wide_by_SA2_year <-
   as.data.table %>%
   set_cols_first(c("sa2_name", "sa2_code", "year")) %>%
   # Original data includes Australia etc
-  .[nchar(sa2_code) == 9]
+  .[nchar(sa2_code) == 9] %>%
+  .[, isMissing := persons == 0] %>%
+  .[]
+
+replace_zeros_withNA <- function(DT) {
+  DT[, isMissing := persons == 0]
+  
+  for (jj in names(DT)) {
+    if (!(jj %in% c("year", "sa2_name", "sa2_code", "isMissing"))) {
+      DT[, (jj) := ifelse(isMissing, NA, DT[[jj]])]
+    }
+  }
+}
+
+replace_zeros_withNA(Census2016_wide_by_SA2_year)
 
 use_data(Census2016_wide_by_SA2_year, overwrite = TRUE)
+
+# Census 2016 SA3
+swdata %>%
+  as.data.frame %>%
+  select(-ancestries,
+         -languages,
+         -countries_of_birth,
+         -religions) %>% 
+  as.data.table %>%
+  .[nchar(sa2_code) != 9]
+
 
 sa2_year_by_i <- 
   Census2016_wide_by_SA2_year %>% 
@@ -115,6 +140,13 @@ Census2016_religions <-
   rbindlist %>%
   setnames("Var", "religions") %>%
   sa2_year_by_i[., on = "row"]
+
+
+
+# replace_zeros_withNA(Census2016_countries_of_birth)
+# replace_zeros_withNA(Census2016_languages)
+# replace_zeros_withNA(Census2016_religions)
+# replace_zeros_withNA(Census2016_ancestories)
 
 use_data(Census2016_countries_of_birth, overwrite = TRUE)
 use_data(Census2016_languages, overwrite = TRUE)
