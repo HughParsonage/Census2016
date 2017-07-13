@@ -28,6 +28,7 @@ Census2016_wide_by_SA2_year <-
   set_cols_first(c("sa2_name", "sa2_code", "year")) %>%
   # Original data includes Australia etc
   .[nchar(sa2_code) == 9] %>%
+  .[, n_dwellings := as.integer(dwelling_owned_outright / dwelling_owned_outright_percent)] %>%
   .[, isMissing := persons == 0] %>%
   .[]
 
