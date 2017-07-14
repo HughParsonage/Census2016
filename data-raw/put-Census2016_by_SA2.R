@@ -25,11 +25,55 @@ Census2016_wide_by_SA2_year <-
          -countries_of_birth,
          -religions) %>% 
   as.data.table %>%
-  set_cols_first(c("sa2_name", "sa2_code", "year")) %>%
+  set_cols_first(c("sa2_name", "sa2_code", "year", "persons")) %>%
+  # Nick you brute
+  setnames(grep("seperate", names(.), value = TRUE),
+           gsub("seperate", "separate", grep("seperate", names(.), value = TRUE))) %>%
   # Original data includes Australia etc
   .[nchar(sa2_code) == 9] %>%
-  .[, n_dwellings := as.integer(dwelling_owned_outright / dwelling_owned_outright_percent)] %>%
+  .[, n_dwellings := coalesce(as.integer(dwelling_owned_outright / dwelling_owned_outright_percent),
+                              as.integer(separate_house / separate_house_percent),
+                              as.integer(dwelling_owned_mortgage / dwelling_owned_mortgage_percent),
+                              as.integer(dwelling_rented / dwelling_rented_percent),
+                              as.integer(housing_other_or_not_stated / housing_other_or_not_stated_percent),
+                              NA_integer_)] %>%
   .[, isMissing := persons == 0] %>%
+  select(-starts_with("percent")) %>%
+  
+  # Redundant:
+  select(-total_indig_status_males, -total_indig_status_females, -total_indig_status_persons) %>%
+  
+  set_cols_first(c("sa2_name", "sa2_code",
+                   "year",
+                   "persons",
+                   
+                   # Q3
+                   "female",
+                   "male",
+                   
+                   # Q4
+                   "median_age",
+                   "married_persons",
+                   "married_females", 
+                   "married_males",
+                   "defacto_persons",
+                   "defacto_females",
+                   "defacto_males",
+                   "notmarried_persons",
+                   "notmarried_females", 
+                   "notmarried_males",
+                   
+                   "indig_persons",
+                   "indig_males",
+                   "indig_females", 
+                   
+                   "non_indig_persons",
+                   "non_indig_females", 
+                   "non_indig_males"
+                    
+                   "not_stated_indig_persons",
+                   "not_stated_indig_males", 
+                   "not_stated_indig_females")) %>%
   .[]
 
 replace_zeros_withNA <- function(DT) {
@@ -59,7 +103,7 @@ swdata %>%
 
 sa2_year_by_i <- 
   Census2016_wide_by_SA2_year %>% 
-  select(sa2_name, year) %>%
+  select(sa2_code, year) %>%
   .[, row := 1:.N]
 
 # Then extract the nested JSONs:
@@ -119,28 +163,40 @@ Census2016_ancestories <-
   seq_along(swdata.List$ancestries) %>%
   lapply(get_all_ancestories) %>%
   rbindlist %>%
-  sa2_year_by_i[., on = "row"]
+  sa2_year_by_i[., on = "row"] %>%
+  .[, c("persons_percent", "row") := NULL] %>%
+  set_cols_last("persons") %>%
+  .[]
 
 Census2016_languages <-
   seq_along(swdata.List$languages) %>%
   lapply(get_all_Var, var = "languages") %>%
   rbindlist %>%
   setnames("Var", "Language") %>%
-  sa2_year_by_i[., on = "row"]
+  sa2_year_by_i[., on = "row"] %>%
+  .[, c("persons_percent", "row") := NULL] %>%
+  set_cols_last("persons") %>%
+  .[]
 
 Census2016_countries_of_birth <-
   seq_along(swdata.List$countries_of_birth) %>%
   lapply(get_all_Var, var = "countries_of_birth") %>%
   rbindlist %>%
   setnames("Var", "countries_of_birth") %>%
-  sa2_year_by_i[., on = "row"]
+  sa2_year_by_i[., on = "row"] %>%
+  .[, c("persons_percent", "row") := NULL] %>%
+  set_cols_last("persons") %>%
+  .[]
 
 Census2016_religions <-
   seq_along(swdata.List$religions) %>%
   lapply(get_all_Var, var = "religions") %>%
   rbindlist %>%
   setnames("Var", "religions") %>%
-  sa2_year_by_i[., on = "row"]
+  sa2_year_by_i[., on = "row"] %>%
+  .[, c("persons_percent", "row") := NULL] %>%
+  set_cols_last("persons") %>%
+  .[]
 
 
 
@@ -153,6 +209,8 @@ use_data(Census2016_countries_of_birth, overwrite = TRUE)
 use_data(Census2016_languages, overwrite = TRUE)
 use_data(Census2016_religions, overwrite = TRUE)
 use_data(Census2016_ancestories, overwrite = TRUE)
+
+tools::resaveRdaFiles("./data/")
 
 Census2016_wide_by_SA2_year %T>%
   fwrite("data-raw/csv/Census2016_wide_by_SA2_year.csv") %>%
