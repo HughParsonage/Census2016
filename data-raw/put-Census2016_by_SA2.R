@@ -41,7 +41,7 @@ Census2016_wide_by_SA2_year <-
   select(-starts_with("percent")) %>%
   
   # Redundant:
-  select(-total_indig_status_males, -total_indig_status_females, -total_indig_status_persons) %>%
+  select(-starts_with("total")) %>%
   
   set_cols_first(c("sa2_name", "sa2_code",
                    "year",
@@ -53,6 +53,8 @@ Census2016_wide_by_SA2_year <-
                    
                    # Q4
                    "median_age",
+                   
+                   # Q6
                    "married_persons",
                    "married_females", 
                    "married_males",
@@ -63,17 +65,20 @@ Census2016_wide_by_SA2_year <-
                    "notmarried_females", 
                    "notmarried_males",
                    
+                   # Q7
                    "indig_persons",
                    "indig_males",
                    "indig_females", 
-                   
                    "non_indig_persons",
                    "non_indig_females", 
-                   "non_indig_males"
-                    
+                   "non_indig_males",
                    "not_stated_indig_persons",
                    "not_stated_indig_males", 
-                   "not_stated_indig_females")) %>%
+                   "not_stated_indig_females",
+                   
+                   # Q11
+                   "born_in_australia",
+                   )) %>%
   .[]
 
 replace_zeros_withNA <- function(DT) {
@@ -166,6 +171,8 @@ Census2016_ancestories <-
   sa2_year_by_i[., on = "row"] %>%
   .[, c("persons_percent", "row") := NULL] %>%
   set_cols_last("persons") %>%
+  setorder(sa2_code, year, -persons) %>%
+  setkey(sa2_code, year) %>%
   .[]
 
 Census2016_languages <-
@@ -176,6 +183,8 @@ Census2016_languages <-
   sa2_year_by_i[., on = "row"] %>%
   .[, c("persons_percent", "row") := NULL] %>%
   set_cols_last("persons") %>%
+  setorder(sa2_code, year, -persons) %>%
+  setkey(sa2_code, year) %>%
   .[]
 
 Census2016_countries_of_birth <-
@@ -186,6 +195,8 @@ Census2016_countries_of_birth <-
   sa2_year_by_i[., on = "row"] %>%
   .[, c("persons_percent", "row") := NULL] %>%
   set_cols_last("persons") %>%
+  setorder(sa2_code, year, -persons) %>%
+  setkey(sa2_code, year) %>%
   .[]
 
 Census2016_religions <-
@@ -195,7 +206,10 @@ Census2016_religions <-
   setnames("Var", "religions") %>%
   sa2_year_by_i[., on = "row"] %>%
   .[, c("persons_percent", "row") := NULL] %>%
+  
   set_cols_last("persons") %>%
+  setorder(sa2_code, year, -persons) %>%
+  setkey(sa2_code, year) %>%
   .[]
 
 
