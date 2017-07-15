@@ -123,7 +123,7 @@ Census2016_wide_by_SA2_year <-
   .[, lapply(.SD, try_integer)] %>%
   # Better units
   .[, median_household_income := median_household_income * 52L] %>%
-  .[, median_annual_mortgage := median_mortgage * 52L] %>%
+  .[, median_annual_mortgage := median_mortgage * 12L] %>%
   .[, median_mortgage := NULL] %>%
   setnames("median_rent", "median_weekly_rent") %>%
   set_cols_last("isMissing")
