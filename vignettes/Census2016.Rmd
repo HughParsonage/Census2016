@@ -1,10 +1,10 @@
 ---
-title: "Analysis of Census time series"
+title: "Analysis of Census 2016"
 author: "Hugh Parsonage"
 date: "`r Sys.Date()`"
-output: rmarkdown::pdf_document
+output: rmarkdown::html_document
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Census2016}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -54,7 +54,7 @@ data.kable <- function(DT) {
 
 ```
 
-```{r packageData}
+```{r packageData, include=FALSE}
 packageData <- data(package = "Census2016")
 .CensusDataTables <- as.data.frame(packageData$results)
 ```
