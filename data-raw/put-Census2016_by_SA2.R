@@ -94,14 +94,52 @@ Census2016_wide_by_SA2_year <-
                    
                    # Q11
                    "born_in_australia",
+                   "born_overseas",
+                   "country_not_stated",
+                   
+                   # Q33
+                   "median_household_income",
+                   
+                   # Q55
+                   "average_household_size",
+                   "persons_per_bedroom",
+                   "separate_house",
+                   "flat_or_unit",
+                   "housing_other_or_not_stated",
+                   "semi_or_townhouse",
+                   
+                   # Q56
+                   "dwelling_owned_outright",
+                   "dwelling_owned_mortgage", 
+                   "dwelling_other_or_not_stated",
+                   "dwelling_rented",
+                   "flat_or_unit",
+                   "housing_other_or_not_stated",
+                   
+                   # Q57
+                   "median_rent"
                    )) %>%
-  .[]
+  # Conserve size + memory
+  .[, lapply(.SD, try_integer)] %>%
+  # Better units
+  .[, median_household_income := median_household_income * 52L] %>%
+  .[, median_annual_mortgage := median_mortgage * 52L] %>%
+  .[, median_mortgage := NULL] %>%
+  setnames("median_rent", "median_weekly_rent") %>%
+  set_cols_last("isMissing")
+
+library(testthat)
+test_that("Braidwood dwelling numbers from Excel files", {
+  Bwood <- Census2016_wide_by_SA2_year[sa2_name == "Braidwood"]
+  expect_equal(Bwood[["n_dwellings"]], c(1527, 1398, 1674))
+})
 
 replace_zeros_withNA <- function(DT) {
   DT[, isMissing := persons == 0]
   
   for (jj in names(DT)) {
     if (!(jj %in% c("year", "sa2_name", "sa2_code", "isMissing"))) {
+      # Need to use ifelse
       DT[, (jj) := ifelse(isMissing, NA, DT[[jj]])]
     }
   }
