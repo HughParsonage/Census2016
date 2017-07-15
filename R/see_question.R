@@ -42,7 +42,7 @@ see_question.data.frame <- function(.data, ...) {
       topic <- noms[3]
     } else {
       
-      stop("If passing a data.frame to see_question, it must be one of the data frames in this package. That is, it must be one of:",
+      stop("If passing a data.frame to see_question, it must be one of the data sets in this package. That is, it must be one of:",
            "\n\n\t",
            paste0(c("Census2016_ancestories", "Census2016_countries_of_birth", 
                     "Census2016_languages", "Census2016_n_women_by_children_ever_born", 
@@ -75,7 +75,7 @@ see_question.data.frame <- function(.data, ...) {
 see_question.numeric <- function(qn, ...) {
   
   if (!(qn %in% 1:61)) {
-    stop("Question number must be a whole number from 1 to 61.")
+    stop("qn (question number) must be a whole number from 1 to 61.")
   }
   
   image <- 
