@@ -74,6 +74,10 @@ see_question.data.frame <- function(.data, ...) {
 #' @export
 see_question.numeric <- function(qn, ...) {
   
+  if (!(qn %in% 1:61)) {
+    stop("Question number must be a whole number from 1 to 61.")
+  }
+  
   image <- 
     switch(as.character(qn),
            "3" = q3,
@@ -87,7 +91,8 @@ see_question.numeric <- function(qn, ...) {
            "18" = q18,
            "19" = q19,
            "32" = q32,
-           stop("Must be one of question 3, 4, 5, 7."))
+           stop("This question is not available through see_question(). ",
+                "Must be one of question 3, 4, 5, 7, 12, 14, 15, 16, 18, 19, 32."))
   aspect_ratio <- attr(image, "info")[["dim"]]
   plot.new()
   plot.window(c(0, aspect_ratio[1]), 

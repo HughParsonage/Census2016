@@ -1,3 +1,9 @@
 language: r
 cache: packages
 warnings_are_errors: true
+
+before_install:
+  - Rscript -e 'if (!requireNamespace("visualTest", quietly = TRUE)) devtools::install_github("MangoTheCat/visualTest")'
+
+r_github_packages:
+  - MangoTheCat/visualTest
