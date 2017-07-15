@@ -63,7 +63,7 @@ see_question.data.frame <- function(.data, ...) {
            "religions" = "19",
            "religion" = "19" )
   see_question.numeric(qn)
-  if (isTRUE("knitr.in.progress")) {
+  if (isTRUE(getOption("knitr.in.progress"))) {
     return(invisible(.data))
   } else {
     return(.data[])
