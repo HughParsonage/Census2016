@@ -15,7 +15,21 @@ con <- dbConnect(RSQLite::SQLite(), "~/../Downloads/scraperwiki.sqlite/scraperwi
 
 swdata <- dbGetQuery(con, "SELECT * FROM swdata")
 
-# First get the tables that are easy:
+# First get the table that is easy:
+
+#' @return If double vectors can be vectors, let them be so
+#' (if there's a warning, back off).
+try_integer <- function(v) {
+  if (is.double(v)) {
+    v.int <- tryCatch(as.integer(v),
+                  error = function(e) v,
+                  warning = function(e) v)
+    if (all(v.int == v)) {
+      v <- v.int
+    }
+  }
+  v
+}
 
 Census2016_wide_by_SA2_year <- 
   swdata %>%
@@ -31,20 +45,22 @@ Census2016_wide_by_SA2_year <-
            gsub("seperate", "separate", grep("seperate", names(.), value = TRUE))) %>%
   # Original data includes Australia etc
   .[nchar(sa2_code) == 9] %>%
-  .[, n_dwellings := coalesce(as.integer(dwelling_owned_outright / dwelling_owned_outright_percent),
-                              as.integer(separate_house / separate_house_percent),
-                              as.integer(dwelling_owned_mortgage / dwelling_owned_mortgage_percent),
-                              as.integer(dwelling_rented / dwelling_rented_percent),
-                              as.integer(housing_other_or_not_stated / housing_other_or_not_stated_percent),
+  # Warnings ok here
+  .[, n_dwellings := coalesce(as.integer(100 * dwelling_owned_outright / dwelling_owned_outright_percent),
+                              as.integer(100 * separate_house / separate_house_percent),
+                              as.integer(100 * dwelling_owned_mortgage / dwelling_owned_mortgage_percent),
+                              as.integer(100 * dwelling_rented / dwelling_rented_percent),
+                              as.integer(100 * housing_other_or_not_stated / housing_other_or_not_stated_percent),
                               NA_integer_)] %>%
   .[, isMissing := persons == 0] %>%
-  select(-starts_with("percent")) %>%
-  
   # Redundant:
-  select(-starts_with("total")) %>%
-  
+  drop_cols(grep("^(percent|total|language)", names(.), value = TRUE)) %>%
+  drop_cols(grep("percent$", names(.), value = TRUE)) %>%
   set_cols_first(c("sa2_name", "sa2_code",
                    "year",
+                   
+                   "n_dwellings",
+                   
                    "persons",
                    
                    # Q3
