@@ -8,6 +8,15 @@ Authors@R: c(person("Hugh", "Parsonage", role = c("aut", "cre"), email = "hugh.p
 Maintainer: Hugh Parsonage <hugh.parsonage@gmail.com>
 Description: Contains the time series profiles for statistical area 2 for the 2006, 2011, and 2016 censuses.
 Depends: R (>= 2.10)
+Imports: data.table
 LazyData: true
 License: CC BY 4.0
 RoxygenNote: 6.0.1
+Suggests: knitr,
+    rmarkdown,
+    ggplot2,
+    ggrepel,
+    magrittr,
+    scales,
+    testthat
+VignetteBuilder: knitr
