@@ -233,7 +233,7 @@ Census2016_languages <-
   seq_along(swdata.List$languages) %>%
   lapply(get_all_Var, var = "languages") %>%
   rbindlist %>%
-  setnames("Var", "Language") %>%
+  setnames("Var", "language") %>%
   sa2_year_by_i[., on = "row"] %>%
   .[, c("persons_percent", "row") := NULL] %>%
   set_cols_last("persons") %>%
@@ -245,7 +245,7 @@ Census2016_countries_of_birth <-
   seq_along(swdata.List$countries_of_birth) %>%
   lapply(get_all_Var, var = "countries_of_birth") %>%
   rbindlist %>%
-  setnames("Var", "countries_of_birth") %>%
+  setnames("Var", "country_of_birth") %>%
   sa2_year_by_i[., on = "row"] %>%
   .[, c("persons_percent", "row") := NULL] %>%
   set_cols_last("persons") %>%
@@ -257,7 +257,7 @@ Census2016_religions <-
   seq_along(swdata.List$religions) %>%
   lapply(get_all_Var, var = "religions") %>%
   rbindlist %>%
-  setnames("Var", "religions") %>%
+  setnames("Var", "religion") %>%
   sa2_year_by_i[., on = "row"] %>%
   .[, c("persons_percent", "row") := NULL] %>%
   
