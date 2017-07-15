@@ -4,7 +4,7 @@
 \name{Census2016_wide_by_SA2_year}
 \alias{Census2016_wide_by_SA2_year}
 \title{Census data by SA2}
-\format{An object of class \code{data.table} (inherits from \code{data.frame}) with 6720 rows and 75 columns.}
+\format{An object of class \code{data.table} (inherits from \code{data.frame}) with 6720 rows and 43 columns.}
 \usage{
 Census2016_wide_by_SA2_year
 }
