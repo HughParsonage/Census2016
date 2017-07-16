@@ -2,10 +2,7 @@
 
 
 # Census2016
-Data from the ABS Census (by SA2)
+Selected data from the ABS Census (by SA2)
 
-## Table structure
 
-### 2D tables
-All
 

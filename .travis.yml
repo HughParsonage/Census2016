@@ -7,3 +7,7 @@ before_install:
 
 r_github_packages:
   - MangoTheCat/visualTest
+  - jimhester/covr
+
+after_success: 
+  - Rscript -e 'covr::codecov()'
