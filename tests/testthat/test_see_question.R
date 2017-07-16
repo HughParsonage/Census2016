@@ -14,7 +14,7 @@ test_that("Returns data", {
 test_that("Images similar to those expected", {
   skip_if_not_installed("visualTest")
   tmp <- tempfile(fileext = ".png")
-  png(tmp, width = 1344, height = 805, )
+  png(tmp, width = 1344, height = 805)
   see_question(Census2016_ancestories)
   dev.off()
   visualTest::isSimilar(tmp, "BF2EC1C1C4D1C4CE", threshold = 8)

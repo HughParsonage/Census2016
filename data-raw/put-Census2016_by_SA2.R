@@ -225,6 +225,7 @@ Census2016_ancestories <-
   sa2_year_by_i[., on = "row"] %>%
   .[, c("persons_percent", "row") := NULL] %>%
   set_cols_last("persons") %>%
+  .[, lapply(.SD, try_integer)] %>%
   setorder(sa2_code, year, -persons) %>%
   setkey(sa2_code, year) %>%
   .[]
@@ -237,6 +238,7 @@ Census2016_languages <-
   sa2_year_by_i[., on = "row"] %>%
   .[, c("persons_percent", "row") := NULL] %>%
   set_cols_last("persons") %>%
+  .[, lapply(.SD, try_integer)] %>%
   setorder(sa2_code, year, -persons) %>%
   setkey(sa2_code, year) %>%
   .[]
@@ -249,6 +251,7 @@ Census2016_countries_of_birth <-
   sa2_year_by_i[., on = "row"] %>%
   .[, c("persons_percent", "row") := NULL] %>%
   set_cols_last("persons") %>%
+  .[, lapply(.SD, try_integer)] %>%
   setorder(sa2_code, year, -persons) %>%
   setkey(sa2_code, year) %>%
   .[]
@@ -260,8 +263,8 @@ Census2016_religions <-
   setnames("Var", "religion") %>%
   sa2_year_by_i[., on = "row"] %>%
   .[, c("persons_percent", "row") := NULL] %>%
-  
   set_cols_last("persons") %>%
+  .[, lapply(.SD, try_integer)] %>%
   setorder(sa2_code, year, -persons) %>%
   setkey(sa2_code, year) %>%
   .[]
@@ -278,7 +281,7 @@ use_data(Census2016_languages, overwrite = TRUE)
 use_data(Census2016_religions, overwrite = TRUE)
 use_data(Census2016_ancestories, overwrite = TRUE)
 
-tools::resaveRdaFiles("./data/")
+# tools::resaveRdaFiles("./data/")
 
 Census2016_wide_by_SA2_year %T>%
   fwrite("data-raw/csv/Census2016_wide_by_SA2_year.csv") %>%
