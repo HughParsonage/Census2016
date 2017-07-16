@@ -11,5 +11,5 @@
 
 On Windows, the only NOTE is regarding the new submission.
 On ubuntu, an additional NOTE is raised regarding the package size.
-I seek an exemption
-
+I seek an exemption for the data limits. 
+This is a data package using data from the 2016 Australian Census.
