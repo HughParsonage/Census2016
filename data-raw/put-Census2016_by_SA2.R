@@ -281,7 +281,8 @@ use_data(Census2016_languages, overwrite = TRUE)
 use_data(Census2016_religions, overwrite = TRUE)
 use_data(Census2016_ancestories, overwrite = TRUE)
 
-# tools::resaveRdaFiles("./data/")
+# 1.42 MB 
+tools::resaveRdaFiles("./data/")
 
 Census2016_wide_by_SA2_year %T>%
   fwrite("data-raw/csv/Census2016_wide_by_SA2_year.csv") %>%
