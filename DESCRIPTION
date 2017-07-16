@@ -19,5 +19,6 @@ Suggests: knitr,
     ggrepel,
     magrittr,
     scales,
-    testthat
+    testthat,
+    png,
 VignetteBuilder: knitr

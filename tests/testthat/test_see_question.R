@@ -13,6 +13,7 @@ test_that("Returns data", {
 
 test_that("Images similar to those expected", {
   skip_if_not_installed("visualTest")
+  skip_if_not_installed("png")
   tmp <- tempfile(fileext = ".png")
   png(tmp, width = 1344, height = 805)
   see_question(Census2016_ancestories)
