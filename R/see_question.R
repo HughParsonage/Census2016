@@ -85,14 +85,14 @@ see_question.numeric <- function(qn, ...) {
            "5" = q6,
            "7" = q7,
            "12" = q12,
-           "14" = q14_15,
-           "15" = q14_15,
+           # "14" = q14_15,
+           # "15" = q14_15,
            "16" = q16,
            "18" = q18,
            "19" = q19,
            "32" = q32,
            stop("This question is not available through see_question(). ",
-                "Must be one of question 3, 4, 5, 7, 12, 14, 15, 16, 18, 19, 32."))
+                "Must be one of question 3, 4, 5, 7, 12, 16, 18, 19, 32."))
   aspect_ratio <- attr(image, "info")[["dim"]]
   plot.new()
   plot.window(c(0, aspect_ratio[1]), 
