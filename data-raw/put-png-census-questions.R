@@ -1,6 +1,23 @@
 library(devtools)
+library(magrittr)
 library(graphics)
+library(magick)
 library(png)
+
+dir("./data-raw/png-census-questions/", 
+    pattern = "(png|PNG)$", 
+    full.names = TRUE) %>%
+  lapply(file.remove)
+
+gif2png <- function(filename) {
+  image_read(filename) %>%
+    image_write(sub("\\.gif$", ".PNG", filename), format = "png")
+}
+
+dir("./data-raw/png-census-questions/", 
+    pattern = "gif$", 
+    full.names = TRUE) %>%
+  lapply(gif2png)
 
 q3  <- readPNG("./data-raw/png-census-questions/Q3-Sex.PNG", info = TRUE)
 q4  <- readPNG("./data-raw/png-census-questions/Q4-DOB-Age.PNG", info = TRUE)
