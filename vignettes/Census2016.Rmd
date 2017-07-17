@@ -22,7 +22,7 @@ suggested_packages_usable <-
   all(vapply(pkgs_suggested, requireNamespace, logical(1), quietly = TRUE))
 
 knitr::opts_chunk$set(eval = suggested_packages_usable,
-                      dev = "png",
+                      # dev = "png",
                       fig.width = 8,
                       fig.height = 6)
 ```
