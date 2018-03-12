@@ -7,7 +7,7 @@ Authors@R: c(person("Hugh", "Parsonage", role = c("aut", "cre"), email = "hugh.p
               person("Nick", "Evershed", role = "dtc"),
               person(family = "Australian Bureau of Statistics", role = "cph"))
 Maintainer: Hugh Parsonage <hugh.parsonage@gmail.com>
-Description: Contains the time series profiles for statistical area 2 for the 2006, 2011, and 2016 censuses.
+Description: Contains selected variables from the time series profiles for statistical areas level 2 from the 2006, 2011, and 2016 censuses of population and housing, Australia. Also provides methods for viewing the questions asked for convenience during analysis.
 Depends: R (>= 2.10)
 Imports: data.table
 LazyData: true
