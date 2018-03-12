@@ -4,10 +4,7 @@ library(graphics)
 library(magick)
 library(png)
 
-dir("./data-raw/png-census-questions/", 
-    pattern = "(png|PNG)$", 
-    full.names = TRUE) %>%
-  lapply(file.remove)
+# http://www.abs.gov.au/ausstats/abs@.nsf/Lookup/by%20Subject/2900.0~2016~Main%20Features~Understanding%20the%20data~6
 
 gif2png <- function(filename) {
   image_read(filename) %>%
@@ -30,6 +27,11 @@ q16 <- readPNG("./data-raw/png-census-questions/Q16-languages.PNG", info = TRUE)
 q18 <- readPNG("./data-raw/png-census-questions/Q18-ancestory.PNG", info = TRUE)
 q19 <- readPNG("./data-raw/png-census-questions/Q19-religion.PNG", info = TRUE)
 q32 <- readPNG("./data-raw/png-census-questions/Q32-n-babies.PNG", info = TRUE)
+
+for (png_file in dir(path = "data-raw/png-census-questions/", pattern = "\\.(png|PNG)$", full.names = TRUE)) {
+  q_no <- sub("^Q([0-9]+)-.*$", "\\1", basename(png_file), perl = TRUE)
+  cat(q_no, "\n")
+}
 
 use_data(q3, q4, q5, q6, q7, q12, q16, q18, q19, q32,
          internal = TRUE, overwrite = TRUE)
