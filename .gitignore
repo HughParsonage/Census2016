@@ -25,3 +25,5 @@ vignettes/*.pdf
 *.knit.md
 .Rproj.user
 inst/doc
+data-raw/2016_GCP_ALL_for_AUS_short-header
+data-raw/quickstats

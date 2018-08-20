@@ -3,6 +3,7 @@ cache: packages
 warnings_are_errors: true
 
 before_install:
+  - Rscript -e 'if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools", quiet = TRUE)'
   - Rscript -e 'if (!requireNamespace("visualTest", quietly = TRUE)) devtools::install_github("MangoTheCat/visualTest")'
 
 r_github_packages:
